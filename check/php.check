@@ -1,0 +1,29 @@
+#!/bin/bash
+. ./functions/os.sh
+. ./functions/main.sh
+
+TESTNAME="PHPTEST"
+
+case "${OPSYS}" in
+	debian)
+		OS_PATH="/etc/php5/apache2/php.ini"
+	;;
+	gentoo)
+		OS_PATH="/etc/ssh/sshd_config"
+	;;
+	redhat)
+		OS_PATH="/etc/php.ini"
+	;;
+
+	*)
+		OS_PATH="/etc/php5/apache2/php.ini"
+esac
+
+echo "\n** ${TESTNAME}: ${OS_PATH}\n";
+
+checklist "${OS_PATH}" "expose_php = On" "1" "expose_php | PHP EXPOSE ACTIVO" "";
+checklist "${OS_PATH}" "file_uploads = On" "1" "file_uploads | Permitida la subida de ficheros" "";
+checklist "${OS_PATH}" "allow_url_fopen = On" "1" "allow_url_fopen | Permitida la apertura de url" "";
+checklist "${OS_PATH}" "sql.safe_mode = Off" "2" "sql.safe_mode | desactivado!" "";
+checklist "${OS_PATH}" "mysql.allow_local_infile = On" "2" "mysql.allow_local_infile | mysql inclusion local permitida" "";
+checklist "${OS_PATH}" "session.name = PHPSESSID" "1" "session.name | session name por defecto (PHPSESSID)" "";

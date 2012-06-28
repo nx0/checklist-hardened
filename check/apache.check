@@ -1,0 +1,25 @@
+#!/bin/bash
+. ./functions/os.sh
+. ./functions/main.sh
+
+TESTNAME="APACHETEST"
+
+case "${OPSYS}" in
+	debian)
+		OS_PATH="/etc/apache2/apache2.conf"
+	;;
+	gentoo)
+		OS_PATH="/etc/ssh/sshd_config"
+	;;
+	redhat)
+		OS_PATH="/etc/php.ini"
+	;;
+
+	*)
+		OS_PATH="/etc/apache2/apache2.conf"
+esac
+
+echo "\n** ${TESTNAME}: ${OS_PATH}\n";
+
+checklist "${OS_PATH}" "LoadModule autoindex_module" "1" "autoindex_module | Autoindexado activo" "";
+checklist "${OS_PATH}" "User apache" "2" "No corriendo como apache" "";

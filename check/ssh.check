@@ -1,0 +1,26 @@
+#!/bin/bash
+. ./functions/os.sh
+. ./functions/main.sh
+
+#OPSYS=${1}
+case "${OPSYS}" in
+	debian)
+		OS_PATH="/etc/ssh/sshd_config"
+	;;
+	gentoo)
+		OS_PATH="/etc/ssh/sshd_config"
+	;;
+	redhat)
+	
+	;;
+
+	*)
+		OS_PATH="/etc/ssh/sshd_config"
+esac
+
+echo "\n-Buscando en: ${OS_PATH}\n";
+
+checklist "${OS_PATH}" "X11Forwarding yes" "1" "Forwarding x11 activo" "";
+checklist "${OS_PATH}" "Port 22" "1" "Puerto por defecto (22)" "";
+checklist "${OS_PATH}" "ListenAddress 0.0.0.0" "1" "Escuchando en todas las interfaces" "";
+checklist "${OS_PATH}" "PermitEmptyPasswords yes" "3" "Permitidas contraseñas vacías" "";
